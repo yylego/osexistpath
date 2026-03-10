@@ -1,0 +1,95 @@
+// Code generated using sure/sure_pkg_gen. DO NOT EDIT.
+// This file was auto generated via github.com/yylego/sure
+// Generated from: testing.go:2036 -> testing.tRunner
+// ========== SURE:DO-NOT-EDIT-SECTION:END ==========
+
+package ossoftexist
+
+import (
+	"github.com/yylego/osexistpath"
+	"github.com/yylego/sure"
+)
+
+func IsPathExists(path string, verb osexistpath.CheckMode) bool {
+	res0, err := osexistpath.IsPathExists(path, verb)
+	sure.Soft(err)
+	return res0
+}
+
+func IsFileExists(path string, verb osexistpath.CheckMode) bool {
+	res0, err := osexistpath.IsFileExists(path, verb)
+	sure.Soft(err)
+	return res0
+}
+
+func IsRootExists(path string, verb osexistpath.CheckMode) bool {
+	res0, err := osexistpath.IsRootExists(path, verb)
+	sure.Soft(err)
+	return res0
+}
+
+func IsPathExist(path string) bool {
+	res0, err := osexistpath.IsPathExist(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsFileExist(path string) bool {
+	res0, err := osexistpath.IsFileExist(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsRootExist(path string) bool {
+	res0, err := osexistpath.IsRootExist(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsPath(path string) bool {
+	res0, err := osexistpath.IsPath(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsFile(path string) bool {
+	res0, err := osexistpath.IsFile(path)
+	sure.Soft(err)
+	return res0
+}
+
+func IsRoot(path string) bool {
+	res0, err := osexistpath.IsRoot(path)
+	sure.Soft(err)
+	return res0
+}
+
+func PATH(path string) string {
+	res0, err := osexistpath.PATH(path)
+	sure.Soft(err)
+	return res0
+}
+
+func FILE(path string) string {
+	res0, err := osexistpath.FILE(path)
+	sure.Soft(err)
+	return res0
+}
+
+func ROOT(path string) string {
+	res0, err := osexistpath.ROOT(path)
+	sure.Soft(err)
+	return res0
+}
+
+func MustPath(path string) {
+	osexistpath.MustPath(path)
+}
+
+func MustFile(path string) {
+	osexistpath.MustFile(path)
+}
+
+func MustRoot(path string) {
+	osexistpath.MustRoot(path)
+}
