@@ -1,6 +1,6 @@
 // Code generated using sure/sure_pkg_gen. DO NOT EDIT.
 // This file was auto generated via github.com/yylego/sure
-// Generated from: testing.go:2036 -> testing.tRunner
+// Generated from: osexistpath_test.go:30 -> osexistpath_test.TestGen
 // ========== SURE:DO-NOT-EDIT-SECTION:END ==========
 
 package ossoftexist

@@ -39,36 +39,36 @@ func (*existNamespace) IsRoot(path string) (bool, error) {
 
 // PATH validates and returns the path if it exists
 // PATH 验证路径存在性，存在则返回路径，否则返回错误
-func (T *existNamespace) PATH(path string) (string, error) {
+func (*existNamespace) PATH(path string) (string, error) {
 	return osexistpath.PATH(path)
 }
 
 // FILE validates and returns the path if the file exists
 // FILE 验证文件存在性，存在则返回路径，否则返回错误
-func (T *existNamespace) FILE(path string) (string, error) {
+func (*existNamespace) FILE(path string) (string, error) {
 	return osexistpath.FILE(path)
 }
 
 // ROOT validates and returns the path if the DIR exists
 // ROOT 验证目录存在性，存在则返回路径，否则返回错误
-func (T *existNamespace) ROOT(path string) (string, error) {
+func (*existNamespace) ROOT(path string) (string, error) {
 	return osexistpath.ROOT(path)
 }
 
 // MustPath validates path existence, panics if not found
 // MustPath 验证路径存在性，不存在则 panic
-func (T *existNamespace) MustPath(path string) {
+func (*existNamespace) MustPath(path string) {
 	osexistpath.MustPath(path)
 }
 
 // MustFile validates file existence, panics if not found
 // MustFile 验证文件存在性，不存在则 panic
-func (T *existNamespace) MustFile(path string) {
+func (*existNamespace) MustFile(path string) {
 	osexistpath.MustFile(path)
 }
 
 // MustRoot validates DIR existence, panics if not found
 // MustRoot 验证目录存在性，不存在则 panic
-func (T *existNamespace) MustRoot(path string) {
+func (*existNamespace) MustRoot(path string) {
 	osexistpath.MustRoot(path)
 }

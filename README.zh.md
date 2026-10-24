@@ -1,13 +1,17 @@
+<!-- TEMPLATE (ZH) BEGIN: BADGES -->
+
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/yylego/osexistpath/release.yml?branch=main&label=BUILD)](https://github.com/yylego/osexistpath/actions/workflows/release.yml?query=branch%3Amain)
 [![GoDoc](https://pkg.go.dev/badge/github.com/yylego/osexistpath)](https://pkg.go.dev/github.com/yylego/osexistpath)
 [![Coverage Status](https://img.shields.io/coveralls/github/yylego/osexistpath/main.svg)](https://coveralls.io/github/yylego/osexistpath?branch=main)
-[![Supported Go Versions](https://img.shields.io/badge/Go-1.24--1.25-lightgrey.svg)](https://go.dev/)
+[![Supported Go Versions](https://img.shields.io/badge/Go-1.24%2B-lightgrey.svg)](https://go.dev/)
 [![GitHub Release](https://img.shields.io/github/release/yylego/osexistpath.svg)](https://github.com/yylego/osexistpath/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/yylego/osexistpath)](https://goreportcard.com/report/github.com/yylego/osexistpath)
 
+<!-- TEMPLATE (ZH) CLOSE: BADGES -->
+
 # osexistpath
 
-具有可配置日志模式的路径存在性检查工具，用于健壮的文件系统操作。
+检查路径、文件、目录是否存在，用模式调节日志多少，并决定类型不对算不算错。
 
 ---
 
@@ -16,15 +20,16 @@
 ## 英文文档
 
 [ENGLISH README](README.md)
-<!-- TEMPLATE (ZH) END: LANGUAGE NAVIGATION -->
+
+<!-- TEMPLATE (ZH) CLOSE: LANGUAGE NAVIGATION -->
 
 ## 主要特性
 
-🎯 **路径存在性验证**: 全面检查路径、文件和 DIR 的存在性
-⚡ **可配置日志模式**: 多种日志级别（Noisy, Sweet, Quiet, Might）
-🔄 **类型安全验证**: 确保路径匹配预期类型（文件 vs DIR）
-🌍 **错误上下文增强**: 丰富的错误包装，提供详细的位置信息
-📋 **便捷函数**: 常见用例的简单一行存在性检查
+- 🎯 **路径存在性验证**: 全面检查路径、文件和 DIR 的存在性
+- ⚡ **检查模式**: Noisy / Sweet / Quiet 调节日志多少，Might 是在问问题，类型不对只返回 false
+- 🔄 **类型安全验证**: 确保路径匹配预期类型（文件 vs DIR）
+- 🌍 **错误上下文增强**: 丰富的错误包装，提供详细的位置信息
+- 📋 **便捷函数**: 常见用例的简单一行存在性检查
 
 ## 安装
 
@@ -119,42 +124,42 @@ func main() {
 
 #### 路径存在性检查
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osexistpath | `IsPathExists(path, verb) (bool, error)` | 使用可配置日志检查路径是否存在 |
-| osexistpath | `IsFileExists(path, verb) (bool, error)` | 检查文件是否存在并进行类型验证 |
+| 包名        | 函数                                     | 说明                            |
+| ----------- | ---------------------------------------- | ------------------------------- |
+| osexistpath | `IsPathExists(path, verb) (bool, error)` | 使用可配置日志检查路径是否存在  |
+| osexistpath | `IsFileExists(path, verb) (bool, error)` | 检查文件是否存在并进行类型验证  |
 | osexistpath | `IsRootExists(path, verb) (bool, error)` | 检查 DIR 是否存在并进行类型验证 |
 
 #### 便捷函数 (Quiet 模式)
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osexistpath | `IsPathExist(path) (bool, error)` | 使用安静模式检查路径存在性 |
-| osexistpath | `IsFileExist(path) (bool, error)` | 使用安静模式检查文件存在性 |
+| 包名        | 函数                              | 说明                        |
+| ----------- | --------------------------------- | --------------------------- |
+| osexistpath | `IsPathExist(path) (bool, error)` | 使用安静模式检查路径存在性  |
+| osexistpath | `IsFileExist(path) (bool, error)` | 使用安静模式检查文件存在性  |
 | osexistpath | `IsRootExist(path) (bool, error)` | 使用安静模式检查 DIR 存在性 |
 
 #### 查询式函数 (Might 模式)
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osexistpath | `IsPath(path) (bool, error)` | 使用询问模式查询路径存在性 |
-| osexistpath | `IsFile(path) (bool, error)` | 使用询问模式查询文件存在性 |
+| 包名        | 函数                         | 说明                        |
+| ----------- | ---------------------------- | --------------------------- |
+| osexistpath | `IsPath(path) (bool, error)` | 使用询问模式查询路径存在性  |
+| osexistpath | `IsFile(path) (bool, error)` | 使用询问模式查询文件存在性  |
 | osexistpath | `IsRoot(path) (bool, error)` | 使用询问模式查询 DIR 存在性 |
 
 #### 路径验证函数
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osexistpath | `PATH(path) (string, error)` | 路径存在时返回路径，否则返回错误 |
-| osexistpath | `FILE(path) (string, error)` | 有效文件时返回文件路径，否则返回错误 |
+| 包名        | 函数                         | 说明                                   |
+| ----------- | ---------------------------- | -------------------------------------- |
+| osexistpath | `PATH(path) (string, error)` | 路径存在时返回路径，否则返回错误       |
+| osexistpath | `FILE(path) (string, error)` | 有效文件时返回文件路径，否则返回错误   |
 | osexistpath | `ROOT(path) (string, error)` | 有效 DIR 时返回 DIR 路径，否则返回错误 |
 
 #### 必须函数
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osexistpath | `MustPath(path)` | 断言路径存在，不存在则触发 panic |
-| osexistpath | `MustFile(path)` | 断言文件存在，不存在则触发 panic |
+| 包名        | 函数             | 说明                              |
+| ----------- | ---------------- | --------------------------------- |
+| osexistpath | `MustPath(path)` | 断言路径存在，不存在则触发 panic  |
+| osexistpath | `MustFile(path)` | 断言文件存在，不存在则触发 panic  |
 | osexistpath | `MustRoot(path)` | 断言 DIR 存在，不存在则触发 panic |
 
 ### osmustexist 包（推荐使用）
@@ -163,56 +168,59 @@ func main() {
 
 #### 存在性检查（无错误返回）
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osmustexist | `IsPathExists(path, verb) bool` | 检查路径存在性并记录日志，错误时 panic |
-| osmustexist | `IsFileExists(path, verb) bool` | 检查文件存在性并进行类型验证，错误时 panic |
+| 包名        | 函数                            | 说明                                        |
+| ----------- | ------------------------------- | ------------------------------------------- |
+| osmustexist | `IsPathExists(path, verb) bool` | 检查路径存在性并记录日志，错误时 panic      |
+| osmustexist | `IsFileExists(path, verb) bool` | 检查文件存在性并进行类型验证，错误时 panic  |
 | osmustexist | `IsRootExists(path, verb) bool` | 检查 DIR 存在性并进行类型验证，错误时 panic |
 
 #### 便捷函数 (Quiet 模式)
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osmustexist | `IsPathExist(path) bool` | 使用安静模式检查路径存在性，错误时 panic |
-| osmustexist | `IsFileExist(path) bool` | 使用安静模式检查文件存在性，错误时 panic |
+| 包名        | 函数                     | 说明                                      |
+| ----------- | ------------------------ | ----------------------------------------- |
+| osmustexist | `IsPathExist(path) bool` | 使用安静模式检查路径存在性，错误时 panic  |
+| osmustexist | `IsFileExist(path) bool` | 使用安静模式检查文件存在性，错误时 panic  |
 | osmustexist | `IsRootExist(path) bool` | 使用安静模式检查 DIR 存在性，错误时 panic |
 
 #### 查询函数 (Might 模式)
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osmustexist | `IsPath(path) bool` | 使用询问模式查询路径存在性，错误时 panic |
-| osmustexist | `IsFile(path) bool` | 使用询问模式查询文件存在性，错误时 panic |
+| 包名        | 函数                | 说明                                      |
+| ----------- | ------------------- | ----------------------------------------- |
+| osmustexist | `IsPath(path) bool` | 使用询问模式查询路径存在性，错误时 panic  |
+| osmustexist | `IsFile(path) bool` | 使用询问模式查询文件存在性，错误时 panic  |
 | osmustexist | `IsRoot(path) bool` | 使用询问模式查询 DIR 存在性，错误时 panic |
 
 #### 验证函数
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osmustexist | `PATH(path) string` | 路径存在时返回路径，否则 panic |
-| osmustexist | `FILE(path) string` | 有效文件时返回文件路径，否则 panic |
+| 包名        | 函数                | 说明                                 |
+| ----------- | ------------------- | ------------------------------------ |
+| osmustexist | `PATH(path) string` | 路径存在时返回路径，否则 panic       |
+| osmustexist | `FILE(path) string` | 有效文件时返回文件路径，否则 panic   |
 | osmustexist | `ROOT(path) string` | 有效 DIR 时返回 DIR 路径，否则 panic |
 
 #### 必须函数
 
-| 包名 | 函数 | 说明 |
-|------|------|------|
-| osmustexist | `MustPath(path)` | 断言路径存在，不存在则 panic |
-| osmustexist | `MustFile(path)` | 断言文件存在，不存在则 panic |
+| 包名        | 函数             | 说明                          |
+| ----------- | ---------------- | ----------------------------- |
+| osmustexist | `MustPath(path)` | 断言路径存在，不存在则 panic  |
+| osmustexist | `MustFile(path)` | 断言文件存在，不存在则 panic  |
 | osmustexist | `MustRoot(path)` | 断言 DIR 存在，不存在则 panic |
 
 ### CheckMode 类型
 
-| 模式 | 说明 |
-|------|------|
-| `Noisy` | 记录所有错误和调试信息 |
-| `Sweet` | 仅记录意外错误 |
-| `Quiet` | 错误时不记录日志 |
-| `Might` | 检查模式，无错误预期 |
+| 模式    | 说明                                     |
+| ------- | ---------------------------------------- |
+| `Noisy` | 记录所有错误和调试信息；类型不对算错     |
+| `Sweet` | 仅记录意外错误；类型不对算错             |
+| `Quiet` | 错误时不记录日志；类型不对算错           |
+| `Might` | 是在问问题：类型不对只返回 false，不算错 |
+
+简单说：`Exist` / `Exists` 系列、`PATH` / `FILE` / `ROOT` 和 `Must*` 都期望路径是它名字里说的那种类型，期望文件却遇到目录就算错（在 osmustexist 里就是 panic）。想在 `if` 里问一问又不担这个风险，用 `IsPath` / `IsFile` / `IsRoot`。
 
 ### 使用模式
 
 **环境设置（推荐 - osmustexist）：**
+
 ```go
 // 使用 osmustexist 进行简洁的设置代码 - 无需错误处理
 osmustexist.MustRoot("/project/config")
@@ -220,21 +228,24 @@ osmustexist.MustFile("/project/config/app.yaml")
 ```
 
 **运行时验证（推荐 - osmustexist）：**
+
 ```go
-// 使用 osmustexist 进行简洁的布尔检查
-if osmustexist.IsFileExist("config.txt") {
+// IsFile 是在问：不存在返回 false，那里是个目录也返回 false，不会 panic
+if osmustexist.IsFile("config.txt") {
     // 处理配置文件 - 无需处理错误
 }
 ```
 
 **检查操作（推荐 - osmustexist）：**
+
 ```go
 // 使用 osmustexist 进行简单的探测检查
 hasConfig := osmustexist.IsFile("config.json")
-hasYaml := osmustexist.IsFile("config.yaml")
+hasYamlFile := osmustexist.IsFile("config.yaml")
 ```
 
 **标准错误处理（当需要时）：**
+
 ```go
 // 当需要显式错误处理时使用基础包
 if exists, err := osexistpath.IsFileExist("config.txt"); err != nil {
@@ -249,12 +260,14 @@ if exists, err := osexistpath.IsFileExist("config.txt"); err != nil {
 ### 错误处理模式
 
 **使用 osmustexist.PATH 进行简洁的验证（推荐）：**
+
 ```go
 // 无需错误处理 - 失败时会 panic
 configPath := osmustexist.PATH("/app/config")
 ```
 
 **标准 PATH 函数进行显式错误处理：**
+
 ```go
 configPath, err := osexistpath.PATH("/app/config")
 if err != nil {
@@ -263,6 +276,7 @@ if err != nil {
 ```
 
 **使用 osmustexist.ROOT 链式验证（推荐）：**
+
 ```go
 // 简洁可读 - 无需错误变量
 dataPath := osmustexist.ROOT("/data")
@@ -272,12 +286,14 @@ logsPath := osmustexist.ROOT(filepath.Join(dataPath, "logs"))
 ### 不同日志模式
 
 **osmustexist Noisy 模式用于调试（推荐）：**
+
 ```go
 exists := osmustexist.IsFileExists("debug.log", osexistpath.Noisy)
 // 记录详细的调试信息，语法简洁
 ```
 
 **osmustexist Sweet 模式用于生产（推荐）：**
+
 ```go
 exists := osmustexist.IsRootExists("/var/lib/app", osexistpath.Sweet)
 // 仅记录意外错误，无需错误处理
@@ -286,32 +302,36 @@ exists := osmustexist.IsRootExists("/var/lib/app", osexistpath.Sweet)
 ### 类型安全验证
 
 **osmustexist：确保路径是文件（推荐）：**
+
 ```go
 if !osmustexist.IsFile("data.json") {
-    return errors.New("期望文件，但发现 DIR")
+    return errors.New("data.json 处没有文件")
 }
 ```
 
 **osmustexist：确保路径确实是 DIR（推荐）：**
+
 ```go
 if !osmustexist.IsRoot("uploads") {
-    return errors.New("期望 DIR，但发现文件")
+    return errors.New("uploads 处没有 DIR")
 }
 ```
 
 ### 基于条件的操作
 
 **osmustexist：处理配置文件（推荐）：**
+
 ```go
-if osmustexist.IsFileExist("app-config.yaml") {
+if osmustexist.IsFile("app-config.yaml") {
     config := loadConfig("app-config.yaml")
-    applyConfig(config)
+    useConfig(config)
 }
 ```
 
 **osmustexist：根据日志 DIR 存在性设置日志（推荐）：**
+
 ```go
-if osmustexist.IsRootExist("/var/log/myapp") {
+if osmustexist.IsRoot("/var/log/myapp") {
     setupFileLogging("/var/log/myapp")
 } else {
     setupConsoleLogging()
@@ -376,11 +396,4 @@ MIT 许可证 - 详见 [LICENSE](LICENSE)。
 
 **祝你用这个包编程愉快！** 🎉🎉🎉
 
-<!-- TEMPLATE (ZH) END: STANDARD PROJECT FOOTER -->
-
----
-
-## GitHub Stars
-
-[![Stargazers](https://starchart.cc/yylego/osexistpath.svg?variant=adaptive)](https://starchart.cc/yylego/osexistpath)
-
+<!-- TEMPLATE (ZH) CLOSE: STANDARD PROJECT FOOTER -->

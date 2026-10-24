@@ -1,13 +1,17 @@
+<!-- TEMPLATE (EN) BEGIN: BADGES -->
+
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/yylego/osexistpath/release.yml?branch=main&label=BUILD)](https://github.com/yylego/osexistpath/actions/workflows/release.yml?query=branch%3Amain)
 [![GoDoc](https://pkg.go.dev/badge/github.com/yylego/osexistpath)](https://pkg.go.dev/github.com/yylego/osexistpath)
 [![Coverage Status](https://img.shields.io/coveralls/github/yylego/osexistpath/main.svg)](https://coveralls.io/github/yylego/osexistpath?branch=main)
-[![Supported Go Versions](https://img.shields.io/badge/Go-1.24--1.25-lightgrey.svg)](https://go.dev/)
+[![Supported Go Versions](https://img.shields.io/badge/Go-1.24%2B-lightgrey.svg)](https://go.dev/)
 [![GitHub Release](https://img.shields.io/github/release/yylego/osexistpath.svg)](https://github.com/yylego/osexistpath/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/yylego/osexistpath)](https://goreportcard.com/report/github.com/yylego/osexistpath)
 
+<!-- TEMPLATE (EN) CLOSE: BADGES -->
+
 # osexistpath
 
-Path existence checking with configurable logging modes for robust file system operations.
+Check if a path exists, and if it is a file / DIR, with modes that tune the logging and decide if a wrong type counts as a fault.
 
 ---
 
@@ -16,15 +20,16 @@ Path existence checking with configurable logging modes for robust file system o
 ## CHINESE README
 
 [中文说明](README.zh.md)
-<!-- TEMPLATE (EN) END: LANGUAGE NAVIGATION -->
+
+<!-- TEMPLATE (EN) CLOSE: LANGUAGE NAVIGATION -->
 
 ## Main Features
 
-🎯 **Path Existence Validation**: Comprehensive checking for paths, files, and directories
-⚡ **Configurable Logging Modes**: Multiple log levels (Noisy, Sweet, Quiet, Might)
-🔄 **Type-Safe Validation**: Ensures paths match expected types (file vs DIR)
-🌍 **Error Context Enhancement**: Rich error wrapping with detailed location information
-📋 **Convenience Functions**: Simple one-line existence checks for common use cases
+- 🎯 **Path Existence Validation**: Comprehensive checking for paths, files, and directories
+- ⚡ **Check Modes**: Noisy / Sweet / Quiet tune the logging, while Might asks a question and treats a wrong type as a plain false
+- 🔄 **Type-Safe Validation**: Ensures paths match expected types (file vs DIR)
+- 🌍 **Error Context Enhancement**: Rich error wrapping with detailed location information
+- 📋 **Convenience Functions**: Simple one-line existence checks for common use cases
 
 ## Installation
 
@@ -119,43 +124,43 @@ func main() {
 
 #### Path Existence Checking
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function                                 | Description                                    |
+| ----------- | ---------------------------------------- | ---------------------------------------------- |
 | osexistpath | `IsPathExists(path, verb) (bool, error)` | Check if path exists with configurable logging |
-| osexistpath | `IsFileExists(path, verb) (bool, error)` | Check if file exists with type validation |
-| osexistpath | `IsRootExists(path, verb) (bool, error)` | Check if DIR exists with type validation |
+| osexistpath | `IsFileExists(path, verb) (bool, error)` | Check if file exists with type validation      |
+| osexistpath | `IsRootExists(path, verb) (bool, error)` | Check if DIR exists with type validation       |
 
 #### Convenience Functions (Quiet Mode)
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function                          | Description                        |
+| ----------- | --------------------------------- | ---------------------------------- |
 | osexistpath | `IsPathExist(path) (bool, error)` | Check path existence in Quiet mode |
 | osexistpath | `IsFileExist(path) (bool, error)` | Check file existence in Quiet mode |
-| osexistpath | `IsRootExist(path) (bool, error)` | Check DIR existence in Quiet mode |
+| osexistpath | `IsRootExist(path) (bool, error)` | Check DIR existence in Quiet mode  |
 
 #### Check-Style Functions (Might Mode)
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function                     | Description                           |
+| ----------- | ---------------------------- | ------------------------------------- |
 | osexistpath | `IsPath(path) (bool, error)` | Check path existence using Might mode |
 | osexistpath | `IsFile(path) (bool, error)` | Check file existence using Might mode |
-| osexistpath | `IsRoot(path) (bool, error)` | Check DIR existence using Might mode |
+| osexistpath | `IsRoot(path) (bool, error)` | Check DIR existence using Might mode  |
 
 #### Path Validation Functions
 
-| Package | Function | Description |
-|---------|----------|-------------|
-| osexistpath | `PATH(path) (string, error)` | Return path if exists, error otherwise |
+| Package     | Function                     | Description                                     |
+| ----------- | ---------------------------- | ----------------------------------------------- |
+| osexistpath | `PATH(path) (string, error)` | Return path if exists, error otherwise          |
 | osexistpath | `FILE(path) (string, error)` | Return file path if valid file, error otherwise |
-| osexistpath | `ROOT(path) (string, error)` | Return DIR path if valid DIR, error otherwise |
+| osexistpath | `ROOT(path) (string, error)` | Return DIR path if valid DIR, error otherwise   |
 
 #### Must Functions
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function         | Description                      |
+| ----------- | ---------------- | -------------------------------- |
 | osexistpath | `MustPath(path)` | Assert path exists, panic if not |
 | osexistpath | `MustFile(path)` | Assert file exists, panic if not |
-| osexistpath | `MustRoot(path)` | Assert DIR exists, panic if not |
+| osexistpath | `MustRoot(path)` | Assert DIR exists, panic if not  |
 
 ### osmustexist Package (Recommended)
 
@@ -163,56 +168,59 @@ The `osmustexist` package provides a clean API through auto handling errors with
 
 #### Existence Checking (No Error Returns)
 
-| Package | Function | Description |
-|---------|----------|-------------|
-| osmustexist | `IsPathExists(path, verb) bool` | Check path existence with logging, panic on error |
+| Package     | Function                        | Description                                               |
+| ----------- | ------------------------------- | --------------------------------------------------------- |
+| osmustexist | `IsPathExists(path, verb) bool` | Check path existence with logging, panic on error         |
 | osmustexist | `IsFileExists(path, verb) bool` | Check file existence with type validation, panic on error |
-| osmustexist | `IsRootExists(path, verb) bool` | Check DIR existence with type validation, panic on error |
+| osmustexist | `IsRootExists(path, verb) bool` | Check DIR existence with type validation, panic on error  |
 
 #### Convenience Functions (Quiet Mode)
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function                 | Description                                        |
+| ----------- | ------------------------ | -------------------------------------------------- |
 | osmustexist | `IsPathExist(path) bool` | Check path existence in Quiet mode, panic on error |
 | osmustexist | `IsFileExist(path) bool` | Check file existence in Quiet mode, panic on error |
-| osmustexist | `IsRootExist(path) bool` | Check DIR existence in Quiet mode, panic on error |
+| osmustexist | `IsRootExist(path) bool` | Check DIR existence in Quiet mode, panic on error  |
 
 #### Check Functions (Might Mode)
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function            | Description                                           |
+| ----------- | ------------------- | ----------------------------------------------------- |
 | osmustexist | `IsPath(path) bool` | Check path existence using Might mode, panic on error |
 | osmustexist | `IsFile(path) bool` | Check file existence using Might mode, panic on error |
-| osmustexist | `IsRoot(path) bool` | Check DIR existence using Might mode, panic on error |
+| osmustexist | `IsRoot(path) bool` | Check DIR existence using Might mode, panic on error  |
 
 #### Validation Functions
 
-| Package | Function | Description |
-|---------|----------|-------------|
-| osmustexist | `PATH(path) string` | Return path if exists, panic otherwise |
+| Package     | Function            | Description                                     |
+| ----------- | ------------------- | ----------------------------------------------- |
+| osmustexist | `PATH(path) string` | Return path if exists, panic otherwise          |
 | osmustexist | `FILE(path) string` | Return file path if valid file, panic otherwise |
-| osmustexist | `ROOT(path) string` | Return DIR path if valid DIR, panic otherwise |
+| osmustexist | `ROOT(path) string` | Return DIR path if valid DIR, panic otherwise   |
 
 #### Must Functions
 
-| Package | Function | Description |
-|---------|----------|-------------|
+| Package     | Function         | Description                      |
+| ----------- | ---------------- | -------------------------------- |
 | osmustexist | `MustPath(path)` | Assert path exists, panic if not |
 | osmustexist | `MustFile(path)` | Assert file exists, panic if not |
-| osmustexist | `MustRoot(path)` | Assert DIR exists, panic if not |
+| osmustexist | `MustRoot(path)` | Assert DIR exists, panic if not  |
 
 ### CheckMode Types
 
-| Mode | Description |
-|------|-------------|
-| `Noisy` | Logs all errors and debug information |
-| `Sweet` | Logs just unexpected errors |
-| `Quiet` | No logging on errors |
-| `Might` | Check mode, no error expectations |
+| Mode    | Description                                                    |
+| ------- | -------------------------------------------------------------- |
+| `Noisy` | Logs each fault and debug information; a wrong type is a fault |
+| `Sweet` | Logs just unexpected errors; a wrong type is a fault           |
+| `Quiet` | No logging on errors; a wrong type is a fault                  |
+| `Might` | Asks a question: a wrong type gives false with no fault        |
+
+In short: the `Exist` / `Exists` functions, `PATH` / `FILE` / `ROOT` and `Must*` expect the type in the function name, so a DIR where a file is expected is a fault (a panic in osmustexist). To ask in an `if` without that risk, use `IsPath` / `IsFile` / `IsRoot`.
 
 ### Usage Patterns
 
 **Environment Setup (Recommended - osmustexist):**
+
 ```go
 // Use osmustexist for clean setup code - no error handling needed
 osmustexist.MustRoot("/project/config")
@@ -220,21 +228,24 @@ osmustexist.MustFile("/project/config/app.yaml")
 ```
 
 **Runtime Validation (Recommended - osmustexist):**
+
 ```go
-// Use osmustexist for clean boolean checks
-if osmustexist.IsFileExist("config.txt") {
+// IsFile asks: false when missing, and false when a DIR sits there, with no panic
+if osmustexist.IsFile("config.txt") {
     // Process config file - no need to handle error
 }
 ```
 
 **Check Operations (Recommended - osmustexist):**
+
 ```go
 // Use osmustexist for simple probe checks
 hasConfig := osmustexist.IsFile("config.json")
-hasYaml := osmustexist.IsFile("config.yaml")
+hasYamlFile := osmustexist.IsFile("config.yaml")
 ```
 
 **Standard Error Handling (When needed):**
+
 ```go
 // Use base package when you need explicit error handling
 if exists, err := osexistpath.IsFileExist("config.txt"); err != nil {
@@ -249,12 +260,14 @@ if exists, err := osexistpath.IsFileExist("config.txt"); err != nil {
 ### Error Handling Patterns
 
 **Using osmustexist.PATH for clean validation (Recommended):**
+
 ```go
 // No error handling needed - panics on failure
 configPath := osmustexist.PATH("/app/config")
 ```
 
 **Standard PATH function with explicit error handling:**
+
 ```go
 configPath, err := osexistpath.PATH("/app/config")
 if err != nil {
@@ -263,6 +276,7 @@ if err != nil {
 ```
 
 **Chaining validations with osmustexist.ROOT (Recommended):**
+
 ```go
 // Clean and readable - no error variables needed
 dataPath := osmustexist.ROOT("/data")
@@ -272,12 +286,14 @@ logsPath := osmustexist.ROOT(filepath.Join(dataPath, "logs"))
 ### Different Logging Modes
 
 **osmustexist Noisy mode for debugging (Recommended):**
+
 ```go
 exists := osmustexist.IsFileExists("debug.log", osexistpath.Noisy)
 // Logs detailed debug information, clean syntax
 ```
 
 **osmustexist Sweet mode for production (Recommended):**
+
 ```go
 exists := osmustexist.IsRootExists("/var/lib/app", osexistpath.Sweet)
 // Logs just unexpected errors, no error handling needed
@@ -286,32 +302,36 @@ exists := osmustexist.IsRootExists("/var/lib/app", osexistpath.Sweet)
 ### Type Safety Validation
 
 **osmustexist: Ensure path is a file (Recommended):**
+
 ```go
 if !osmustexist.IsFile("data.json") {
-    return errors.New("expected file, found DIR")
+    return errors.New("found no file at data.json")
 }
 ```
 
 **osmustexist: Ensure path is a DIR (Recommended):**
+
 ```go
 if !osmustexist.IsRoot("uploads") {
-    return errors.New("expected DIR, found file")
+    return errors.New("found no DIR at uploads")
 }
 ```
 
 ### Condition-Based Operations
 
 **osmustexist: Process config files (Recommended):**
+
 ```go
-if osmustexist.IsFileExist("app-config.yaml") {
+if osmustexist.IsFile("app-config.yaml") {
     config := loadConfig("app-config.yaml")
-    applyConfig(config)
+    useConfig(config)
 }
 ```
 
 **osmustexist: Setup logging DIR if exists (Recommended):**
+
 ```go
-if osmustexist.IsRootExist("/var/log/myapp") {
+if osmustexist.IsRoot("/var/log/myapp") {
     setupFileLogging("/var/log/myapp")
 } else {
     setupConsoleLogging()
@@ -376,11 +396,4 @@ Welcome to contribute to this project via submitting merge requests and reportin
 
 **Have Fun Coding with this package!** 🎉🎉🎉
 
-<!-- TEMPLATE (EN) END: STANDARD PROJECT FOOTER -->
-
----
-
-## GitHub Stars
-
-[![Stargazers](https://starchart.cc/yylego/osexistpath.svg?variant=adaptive)](https://starchart.cc/yylego/osexistpath)
-
+<!-- TEMPLATE (EN) CLOSE: STANDARD PROJECT FOOTER -->

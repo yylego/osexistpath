@@ -11,6 +11,7 @@ import (
 	"github.com/yylego/syntaxgo/syntaxgo_ast"
 )
 
+//go:generate go test -run ^TestGen$ -tags=sure_generate
 func TestGen(t *testing.T) {
 	options := sure_cls_gen.NewClassGenOptions(runpath.PARENT.Path()).
 		WithNewClassNameParts("_").
@@ -25,33 +26,4 @@ func TestGen(t *testing.T) {
 	}
 
 	sure_cls_gen.GenerateClasses(config, existNamespace{})
-}
-
-func Test_existNamespace_Must_PATH(t *testing.T) {
-	{
-		//这样只要一行代码就能得到必然存在的路径
-		path := EXIST.Must().PATH(runpath.CurrentPath())
-		//使用（打印）路径
-		t.Log(path)
-	}
-	{
-		//这样只要一行代码就能得到必然存在的路径
-		path := EXIST.Must().PATH(runpath.PARENT.Path())
-		//使用（打印）路径
-		t.Log(path)
-	}
-}
-
-func Test_existNamespace_Must_FILE(t *testing.T) {
-	//这样只要一行代码就能得到必然存在的文件
-	path := EXIST.Must().FILE(runtestpath.SrcPath(t))
-	//使用（打印）路径
-	t.Log(path)
-}
-
-func Test_existNamespace_Must_ROOT(t *testing.T) {
-	//这样只要一行代码就能得到必然存在的目录
-	path := EXIST.Must().ROOT(runpath.PARENT.Path())
-	//使用（打印）路径
-	t.Log(path)
 }

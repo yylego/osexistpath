@@ -1,5 +1,8 @@
 COVERAGE_DIR ?= .coverage.out
 
+generate:
+	@go generate ./...
+
 test:
 	@if [ -d $(COVERAGE_DIR) ]; then rm -r $(COVERAGE_DIR); fi
 	@mkdir $(COVERAGE_DIR)

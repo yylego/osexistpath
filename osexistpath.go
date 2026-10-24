@@ -1,11 +1,11 @@
 // Package osexistpath: Path existence checking with configurable logging modes
 // Provides comprehensive file, DIR, and path existence validation
-// Supports multiple detail levels for error handling and logging
+// Check modes tune the logging and decide if a wrong type counts as a fault
 // Designed for robust file system operations with enhanced error context
 //
 // osexistpath: 具有可配置日志模式的路径存在性检查工具
 // 提供全面的文件、目录和路径存在性验证功能
-// 支持多种详细程度的错误处理和日志记录
+// 检查模式调节日志多少，并决定类型不对算不算错
 // 专为具有增强错误上下文的健壮文件系统操作而设计
 package osexistpath
 
@@ -13,11 +13,17 @@ import (
 	"os"
 
 	"github.com/pkg/errors"
-	"github.com/yylego/erero"
 	"github.com/yylego/zaplog"
 	"go.uber.org/zap"
 )
 
+// CheckMode decides what gets logged, and if a path of the wrong type counts as a fault
+// Noisy, Sweet and Quiet tune the logging, and treat a wrong type as a fault
+// Might asks a question instead: a wrong type gives false with no fault
+//
+// CheckMode 决定打哪些日志，以及类型不对算不算错
+// Noisy、Sweet、Quiet 调的是日志多少，它们都把类型不对当成错
+// Might 是在问问题：类型不对只返回 false，不算错
 type CheckMode string
 
 const (
@@ -28,11 +34,11 @@ const (
 )
 
 // IsPathExists checks if there is something at the specified path
-// Supports configurable detail levels for different logging behaviors
+// The check mode tunes the logging
 // Returns boolean existence status and possible errors from file system operations
 //
 // IsPathExists 检查指定路径下是否有内容
-// 支持可配置的详细级别以适应不同的日志行为
+// 检查模式调节日志多少
 // 返回布尔存在状态和文件系统操作的潜在错误
 func IsPathExists(path string, verb CheckMode) (bool, error) {
 	if _, err := os.Stat(path); err != nil {
@@ -45,17 +51,19 @@ func IsPathExists(path string, verb CheckMode) (bool, error) {
 		if verb != Quiet {
 			zaplog.LOGS.Skip1.Error("IS_PATH_EXISTS", zap.String("path", path), zap.Error(err))
 		}
-		return false, erero.Wro(err) // 其他的错误
+		// errors.WithStack, not erero.Wro: erero.Wro logs on each invocation, which would break Quiet and log twice in Noisy / Sweet / Might
+		// 用 errors.WithStack 而不是 erero.Wro：erero.Wro 每次都会打日志，Quiet 就不安静了，其他模式也会打两遍
+		return false, errors.WithStack(err) // 其他的错误
 	}
 	return true, nil
 }
 
 // IsFileExists checks if a file exists at the specified path
-// Validates that the path exists AND is a standard file (not a DIR)
+// Validates that the path exists AND is not a DIR (each non-DIR path counts as a file)
 // Returns boolean existence status and handles type validation errors
 //
 // IsFileExists 检查指定路径的文件是否存在
-// 验证路径存在且为常规文件（非目录）
+// 验证路径存在且不是目录（凡不是目录的都算文件）
 // 返回布尔存在状态并处理类型验证错误
 func IsFileExists(path string, verb CheckMode) (bool, error) {
 	info, err := os.Stat(path)
@@ -69,7 +77,9 @@ func IsFileExists(path string, verb CheckMode) (bool, error) {
 		if verb != Quiet {
 			zaplog.LOGS.Skip1.Error("IS_FILE_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
-		return false, erero.Wro(err) // 其他的错误
+		// errors.WithStack, not erero.Wro: erero.Wro logs on each invocation, which would break Quiet and log twice in Noisy / Sweet / Might
+		// 用 errors.WithStack 而不是 erero.Wro：erero.Wro 每次都会打日志，Quiet 就不安静了，其他模式也会打两遍
+		return false, errors.WithStack(err) // 其他的错误
 	}
 	if info.IsDir() {
 		//这里不要直接打错误日志，需要根据情况而定
@@ -94,11 +104,11 @@ func IsFileExists(path string, verb CheckMode) (bool, error) {
 }
 
 // IsRootExists checks if a DIR exists at the specified path
-// Validates that the path exists AND is a DIR (not a standard file)
+// Validates that the path exists AND is a DIR (a file does not count)
 // Returns boolean existence status and handles type validation errors
 //
 // IsRootExists 检查指定路径的目录是否存在
-// 验证路径存在且为目录（非常规文件）
+// 验证路径存在且为目录（文件不算）
 // 返回布尔存在状态并处理类型验证错误
 func IsRootExists(path string, verb CheckMode) (bool, error) {
 	info, err := os.Stat(path)
@@ -112,7 +122,9 @@ func IsRootExists(path string, verb CheckMode) (bool, error) {
 		if verb != Quiet {
 			zaplog.LOGS.Skip1.Error("IS_ROOT_EXISTS wrong stat", zap.String("path", path), zap.Error(err))
 		}
-		return false, erero.Wro(err) // 其他的错误
+		// errors.WithStack, not erero.Wro: erero.Wro logs on each invocation, which would break Quiet and log twice in Noisy / Sweet / Might
+		// 用 errors.WithStack 而不是 erero.Wro：erero.Wro 每次都会打日志，Quiet 就不安静了，其他模式也会打两遍
+		return false, errors.WithStack(err) // 其他的错误
 	}
 	if !info.IsDir() {
 		//这里不要直接打错误日志，需要根据情况而定
@@ -170,7 +182,7 @@ func IsRootExist(path string) (bool, error) {
 }
 
 // IsPath checks if there is something at the specified path
-// Uses Might mode for query-style checking without error expectations
+// Uses Might mode to ask, with no fault expected
 // Returns boolean existence status with basic error handling
 //
 // IsPath 检查指定路径下是否有内容
@@ -181,7 +193,7 @@ func IsPath(path string) (bool, error) {
 }
 
 // IsFile checks if a file exists at the specified path
-// Uses Might mode for query-style file type checking
+// Uses Might mode to ask, so a DIR gives false with no fault
 // Returns boolean existence status with basic error handling
 //
 // IsFile 检查指定路径的文件是否存在
@@ -192,7 +204,7 @@ func IsFile(path string) (bool, error) {
 }
 
 // IsRoot checks if a DIR exists at the specified path
-// Uses Might mode for query-style DIR type checking
+// Uses Might mode to ask, so a file gives false with no fault
 // Returns boolean existence status with basic error handling
 //
 // IsRoot 检查指定路径的目录是否存在
@@ -204,73 +216,85 @@ func IsRoot(path string) (bool, error) {
 
 // PATH validates path existence and returns the path if valid
 // Returns the source path string when validation passes
-// Returns error when path doesn't exist or validation fails
+// Returns error when the path doesn't exist, and when stat fails
 //
 // PATH 验证路径存在性，成功时返回路径
 // 验证通过时返回原始路径字符串
 // 路径不存在或验证失败时返回错误
 func PATH(path string) (string, error) {
-	exist, err := IsPathExists(path, Sweet)
+	// Quiet inside, so the one log line below is the sole record, and the cause comes back wrapped once
+	// 内部用 Quiet，下面这一行日志就是唯一的记录，错误也只包一层
+	exist, err := IsPathExists(path, Quiet)
 	if err != nil {
-		zaplog.LOGS.Skip1.Error("path", zap.String("path", path), zap.Error(err))
-		return "", erero.Wro(err)
+		zaplog.LOGS.Skip1.Error("PATH", zap.String("path", path), zap.Error(err))
+		return "", err
 	}
 	if !exist {
-		zaplog.LOGS.Skip1.Debug("path", zap.String("path", path), zap.Bool("exist", false))
-		return "", os.ErrNotExist
+		zaplog.LOGS.Skip1.Debug("PATH", zap.String("path", path), zap.Bool("exist", false))
+		// Name the path in the message, while errors.Is(err, os.ErrNotExist) keeps on matching
+		// 在信息里带上路径，errors.Is(err, os.ErrNotExist) 照样能判断出来
+		return "", errors.WithMessagef(os.ErrNotExist, "path %s", path)
 	}
 	return path, nil
 }
 
 // FILE validates file existence and returns the path if valid
 // Returns the source path string when file validation passes
-// Returns error when file doesn't exist or is not a standard file
+// Returns error when the path doesn't exist, and when it is a DIR
 //
 // FILE 验证文件存在性，成功时返回路径
 // 文件验证通过时返回原始路径字符串
-// 文件不存在或非常规文件时返回错误
+// 路径不存在或是目录时返回错误
 func FILE(path string) (string, error) {
-	exist, err := IsFileExists(path, Sweet)
+	// Quiet inside, so the one log line below is the sole record, and the cause comes back wrapped once
+	// 内部用 Quiet，下面这一行日志就是唯一的记录，错误也只包一层
+	exist, err := IsFileExists(path, Quiet)
 	if err != nil {
-		zaplog.LOGS.Skip1.Error("file", zap.String("path", path), zap.Error(err))
-		return "", erero.Wro(err)
+		zaplog.LOGS.Skip1.Error("FILE", zap.String("path", path), zap.Error(err))
+		return "", err
 	}
 	if !exist {
-		zaplog.LOGS.Skip1.Debug("file", zap.String("path", path), zap.Bool("exist", false))
-		return "", os.ErrNotExist
+		zaplog.LOGS.Skip1.Debug("FILE", zap.String("path", path), zap.Bool("exist", false))
+		// Name the path in the message, while errors.Is(err, os.ErrNotExist) keeps on matching
+		// 在信息里带上路径，errors.Is(err, os.ErrNotExist) 照样能判断出来
+		return "", errors.WithMessagef(os.ErrNotExist, "path %s", path)
 	}
 	return path, nil
 }
 
 // ROOT validates DIR existence and returns the path if valid
 // Returns the source path string when DIR validation passes
-// Returns error when DIR doesn't exist or is not a DIR
+// Returns error when the path doesn't exist, and when it is a file
 //
 // ROOT 验证目录存在性，成功时返回路径
 // 目录验证通过时返回原始路径字符串
 // 目录不存在或非目录时返回错误
 func ROOT(path string) (string, error) {
-	exist, err := IsRootExists(path, Sweet)
+	// Quiet inside, so the one log line below is the sole record, and the cause comes back wrapped once
+	// 内部用 Quiet，下面这一行日志就是唯一的记录，错误也只包一层
+	exist, err := IsRootExists(path, Quiet)
 	if err != nil {
-		zaplog.LOGS.Skip1.Error("root", zap.String("path", path), zap.Error(err))
-		return "", erero.Wro(err)
+		zaplog.LOGS.Skip1.Error("ROOT", zap.String("path", path), zap.Error(err))
+		return "", err
 	}
 	if !exist {
-		zaplog.LOGS.Skip1.Debug("root", zap.String("path", path), zap.Bool("exist", false))
-		return "", os.ErrNotExist
+		zaplog.LOGS.Skip1.Debug("ROOT", zap.String("path", path), zap.Bool("exist", false))
+		// Name the path in the message, while errors.Is(err, os.ErrNotExist) keeps on matching
+		// 在信息里带上路径，errors.Is(err, os.ErrNotExist) 照样能判断出来
+		return "", errors.WithMessagef(os.ErrNotExist, "path %s", path)
 	}
 	return path, nil
 }
 
 // MustPath validates path existence and panics if validation fails
-// Uses Noisy mode to log detailed error information before panicking
-// Designed for vital path validation where failing should halt execution
+// The panic carries the path and the cause, logged once
+// Fits a path the program cannot go on without
 //
 // MustPath 验证路径存在性，验证失败时触发 panic
-// 使用详细模式在 panic 前记录详细错误信息
+// panic 时带上路径和原因，只记录一次
 // 用于关键路径验证，失败时应停止执行
 func MustPath(path string) {
-	exist, err := IsPathExists(path, Noisy)
+	exist, err := IsPathExists(path, Quiet)
 	if err != nil {
 		zaplog.LOGS.Skip1.Panic("must_path", zap.String("path", path), zap.Error(err))
 	}
@@ -280,14 +304,14 @@ func MustPath(path string) {
 }
 
 // MustFile validates file existence and panics if validation fails
-// Uses Noisy mode to log detailed error information before panicking
-// Designed for vital file validation where failing should halt execution
+// The panic carries the path and the cause, logged once
+// Fits a file the program cannot go on without
 //
 // MustFile 验证文件存在性，验证失败时触发 panic
-// 使用详细模式在 panic 前记录详细错误信息
+// panic 时带上路径和原因，只记录一次
 // 用于关键文件验证，失败时应停止执行
 func MustFile(path string) {
-	exist, err := IsFileExists(path, Noisy)
+	exist, err := IsFileExists(path, Quiet)
 	if err != nil {
 		zaplog.LOGS.Skip1.Panic("must_file", zap.String("path", path), zap.Error(err))
 	}
@@ -297,14 +321,14 @@ func MustFile(path string) {
 }
 
 // MustRoot validates DIR existence and panics if validation fails
-// Uses Noisy mode to log detailed error information before panicking
-// Designed for vital DIR validation where failing should halt execution
+// The panic carries the path and the cause, logged once
+// Fits a DIR the program cannot go on without
 //
 // MustRoot 验证目录存在性，验证失败时触发 panic
-// 使用详细模式在 panic 前记录详细错误信息
+// panic 时带上路径和原因，只记录一次
 // 用于关键目录验证，失败时应停止执行
 func MustRoot(path string) {
-	exist, err := IsRootExists(path, Noisy)
+	exist, err := IsRootExists(path, Quiet)
 	if err != nil {
 		zaplog.LOGS.Skip1.Panic("must_root", zap.String("path", path), zap.Error(err))
 	}
